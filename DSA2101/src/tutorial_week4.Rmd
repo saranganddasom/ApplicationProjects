@@ -1,0 +1,99 @@
+---
+title: "Tutorial in Week 4"
+author: "CHOI JAE BIN A0244864W"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+# Global options for the RMarkdown document
+knitr::opts_chunk$set(include = TRUE,
+                      message = FALSE, warning = FALSE, 
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+
+### Question 1.1
+
+Answer:
+
+```{r}
+library(readxl)
+excel_sheets("../data/tourist.xlsx")
+qn1_1 <- read_excel("../data/tourist.xlsx", sheet = 1, range = "A10:G24")
+print(qn1_1)
+```
+
+### Question 1.2
+
+Answer part 1.2 here.
+
+```{r}
+qn1_2 <- qn1_1[qn1_1$`Data Series` != "15 Days & Over (Number)", ]
+print(qn1_2)
+```
+
+### Question 1.3
+
+Answer part 1.3 here.
+
+```{r}
+qn1_3 <- sum(qn1_2$`2023 Dec`)
+print(paste("The total number of international visitors in December 2023 is", qn1_3))
+```
+
+### Question 1.4
+
+Answer part 1.4 here.
+
+```{r}
+barplot(qn1_2$`2023 Dec`/1000,
+        names.arg = c("0", "1", "2", "3", "4", "5", "6", "7", "8-10", "11-14", "15-29", "30-59", ">=60"),
+        las = 2,
+        col = "grey",
+        main = "Tourists' Length of Stay in Dec 2023",
+        ylab = "Number of Arrivals (in thousands)",
+        xlab = "Length of Stay (days)")
+```
+
+## Question 2
+
+### Question 2.1
+
+Answer part 2.1 here.
+
+```{r}
+qn2_1 <- read_excel("../data/tourist_total.xlsx", sheet = 1, range = "A3:B15")
+print(qn2_1)
+```
+
+### Question 2.2
+
+Answer part 2.2 here.
+
+```{r}
+library(lubridate)
+qn2_1$Month = ym(qn2_1$Month)
+print(qn2_1)
+```
+
+### Question 2.2
+
+Answer part 2.2 here.
+
+```{r}
+plot(x = qn2_1$Month, y = qn2_1$Total/1000, type = "b",
+     main = "Monthly tourist arrivals in 2023",
+     xlab = "Month",
+     ylab = "Number of arrivals (in thousands)")
+```
+
+
+## Requirement
+
+-   Use Markdown to add text and explain your code/results where necessary.
+
+-   Always knit your RMarkdown file (`.Rmd`) to ensure it **renders to HTML without any errors** before submission.
+
+-   Save your `.Rmd` frequently and submit it according to the requirements outlined for each tutorial/assessment.

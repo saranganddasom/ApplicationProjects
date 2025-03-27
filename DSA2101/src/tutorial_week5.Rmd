@@ -1,0 +1,86 @@
+---
+title: "Tutorial in Week 5"
+author: "CHOI JAE BIN A0244864W E0878509"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+# Global options for the RMarkdown document
+knitr::opts_chunk$set(include = TRUE,
+                      message = FALSE, warning = FALSE, 
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+### Question 1.1
+Answer part 1.1 here.
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(stringr)
+library(lubridate)
+qn1_1 = read.csv("../data/ges_sg.csv", na.strings = "na", stringsAsFactors = TRUE) %>%
+select(-1)
+glimpse(qn1_1)
+```
+
+### Question 1.2
+Answer part 1.2 here.
+
+```{r}
+qn1_2 = qn1_1 %>%
+filter(year == 2022)%>%
+group_by(university)%>%
+summarize(median_employment = median(employment_rate_overall, na.rm = TRUE)) %>%
+arrange(desc(median_employment))
+```
+
+## Question 1.3
+Answer part 1.3 here. 
+
+```{r}
+qn1_3 = qn1_1 %>%
+  filter(year == 2022 & university == "National University of Singapore") %>%
+  group_by(school) %>%
+  summarise(val = median(gross_monthly_median, na.rm = TRUE)) %>%
+  arrange(val)
+
+par(mar = c(5, 10, 2, 2))
+
+barplot(qn1_3$val, names.arg = qn1_3$school, horiz = TRUE, las = 1, 
+        cex.axis = 0.7, cex.names = 0.7, border = NA,
+        main = "Median gross income by school, 2022",
+        xlab = "Median gross income (dollars)")
+
+grid()
+```
+
+## Question 2
+Answer part 2 here. 
+
+```{r}
+file_names = c("andreazhang_S13774_4717352_Week 4 ANDREA ZHANG.Rmd",
+"chettyraj_S11993_4717353_wk4_RC.RMD",
+"choclarence_S10609_4717354_tut_wk_4.RMD",
+"surya_S10197_4717355_Surya.Rmd")
+
+qn_2 = str_split_fixed(file_names, "_", 4) %>%
+  data.frame() %>%
+  
+  rename(student_name = 1, student_id = 2, assignment_id = 3, actual_file_name = 4) %>%
+  
+  mutate(student_id = str_remove(student_id, "S"),
+         student_id = as.numeric(student_id),
+         assignment_id = as.numeric(assignment_id))
+glimpse(qn_2)
+```
+
+## Requirement
+
++ Use Markdown to add text and explain your code/results where necessary.
+
++ Always knit your RMarkdown file (`.Rmd`) to ensure it **renders to HTML without any errors** before submission.
+
++ Save your `.Rmd` frequently and submit it according to the requirements outlined for each tutorial/assessment.
